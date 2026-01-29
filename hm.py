@@ -8,24 +8,26 @@
 class Client:
     def __init__(self, name):
         self.name = name
-    def check_available_cars():
+    def check_available_cars(self):
         pass
-    def rent_a_car(auto):
+    def rent_a_car(self, auto):
         pass
 class Auto:
     def __init__(self, mark, model, state):
         self.mark = mark
         self.model = model
         self.state = state
-    def is_rented():
+    def is_rented(self):
         pass
 
 class System:
-    def take_a_request(name, car):
+    def __init__(self):
+        pass
+    def take_a_request(self, name, car):
         pass
 
 class Confirmation:
-    def yourpass():
+    def yourpass(self):
         pass
 
 oursystem = System()
