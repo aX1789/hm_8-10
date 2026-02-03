@@ -5,19 +5,25 @@
 # далі він отримує договір
 
 
-class Client:
-    def __init__(self, name):
-        self.name = name
-    def check_available_cars(self):
-        pass
-    def rent_a_car(self, auto):
-        pass
+# class Client:
+#     def __init__(self, name):
+#         self.name = name
+#     def check_available_cars(self):
+#         pass
+#     def rent_a_car(self, auto):
+#         pass
+
+import pandas as pd
+
 class Auto:
-    def __init__(self, mark, model, state):
-        self.mark = mark
+    def __init__(self, id, make, model, state):
+        self.id = id
+        self.mark = make
         self.model = model
         self.state = state
-    def is_rented(self):
+    def is_available(self):
+        pass
+    def to_be_rented(self):
         pass
 
 class System:
@@ -27,20 +33,40 @@ class System:
         pass
 
 class Confirmation:
+    def __init__(self, cus_name, car):
+        self.cus_name = cus_name
+        self.car_num = car
     def yourpass(self):
         pass
 
-oursystem = System()
+def checking():
+    df = pd.read_csv("cars.csv")
+    print(df)
 
+    car_id = input("Enter the ID of the car")
+    car = Auto(id=car_id)
 
-car1 = Auto("Audi", "A6", "have some scratches")
+    if car.is_available():
+        car.to_be_rented()
+        cus_name = input("Enter your name: ")
+        your_pass = Confirmation(
+            cus_name=cus_name,
+            car = car
+        )
+        Confirmation.yourpass()
+    else: 
+        print("this car is not in your reach")
 
+if __name__ == "__main__":
+    # добавив щоб добавить
+    checking()
 
-Max = Client("Max")
-Max.check_available_cars()
-Max.rent_a_car(car1)
-oursystem.take_a_request(Max.name, car1)
-confirm = Confirmation()
-confirm.yourpass()
-
+# oursystem = System()
+# car1 = Auto("Audi", "A6", "have some scratches")
+# Max = Client("Max")
+# Max.check_available_cars()
+# Max.rent_a_car(car1)
+# oursystem.take_a_request(Max.name, car1)
+# confirm = Confirmation()
+# confirm.yourpass()
 
