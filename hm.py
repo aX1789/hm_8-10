@@ -15,16 +15,28 @@
 
 import pandas as pd
 
+df_cars = pd.read_csv("cars.csv", dtype={"id": str})
+
 class Auto:
-    def __init__(self, id, make, model, state):
+    def __init__(self, id):
         self.id = id
-        self.mark = make
-        self.model = model
-        self.state = state
+        self.mark = df_cars.loc[df_cars["id"] == self.id, "make"]
+        self.model = df_cars.loc[df_cars["id"] == self.id, "model"]
+        self.state = df_cars.loc[df_cars["id"] == self.id, "year"]
     def is_available(self):
-        pass
+        try:
+            available = df_cars.loc[df_cars["id"] == self.id, "available"].squeeze()
+            if available == "yes":
+                return True
+            else: 
+                return False            
+        except ValueError:
+            print("This ID does not exist")
+            exit()
+    
     def to_be_rented(self):
-        pass
+        df_cars.loc[df_cars["id"] == self.id, "available"] = "no"
+        df_cars.to_csv("cars.csv", index=False)
 
 class System:
     def __init__(self):
@@ -37,13 +49,18 @@ class Confirmation:
         self.cus_name = cus_name
         self.car_num = car
     def yourpass(self):
-        pass
+        yourpass = f"""
+        Thank you for your reservation
+        Here is your booking data:
+        Name: {self.cus_name}
+        Car: {self.car_num.name}"""
+        return yourpass
 
 def checking():
-    df = pd.read_csv("cars.csv")
-    print(df)
 
-    car_id = input("Enter the ID of the car")
+    print(df_cars)
+
+    car_id = input("Enter the ID of the car: ")
     car = Auto(id=car_id)
 
     if car.is_available():
@@ -53,7 +70,7 @@ def checking():
             cus_name=cus_name,
             car = car
         )
-        Confirmation.yourpass()
+        print(your_pass.yourpass())
     else: 
         print("this car is not in your reach")
 
