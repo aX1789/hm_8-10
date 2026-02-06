@@ -1,4 +1,4 @@
-id,make,model,year,available
-234,Toyota,Camry,2020,yes
-110,BMW,X5,2019,no
-541,Ford,Focus,2022,no
+id,make,model,year,available,state
+234,Toyota,Camry,2020,yes,has no wheels
+110,BMW,X5,2019,no,ideal state
+541,Ford,Focus,2022,yes,had some scratches 

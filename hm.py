@@ -20,9 +20,10 @@ df_cars = pd.read_csv("cars.csv", dtype={"id": str})
 class Auto:
     def __init__(self, id):
         self.id = id
-        self.mark = df_cars.loc[df_cars["id"] == self.id, "make"]
-        self.model = df_cars.loc[df_cars["id"] == self.id, "model"]
-        self.state = df_cars.loc[df_cars["id"] == self.id, "year"]
+        self.mark = df_cars.loc[df_cars["id"] == self.id, "make"].squeeze()
+        self.model = df_cars.loc[df_cars["id"] == self.id, "model"].squeeze()
+        self.year = df_cars.loc[df_cars["id"] == self.id, "year"].squeeze()
+        self.state = df_cars.loc[df_cars["id"] == self.id, "state"].squeeze()
     def is_available(self):
         try:
             available = df_cars.loc[df_cars["id"] == self.id, "available"].squeeze()
@@ -47,13 +48,17 @@ class System:
 class Confirmation:
     def __init__(self, cus_name, car):
         self.cus_name = cus_name
-        self.car_num = car
+        self.car = car
+
     def yourpass(self):
         yourpass = f"""
         Thank you for your reservation
         Here is your booking data:
         Name: {self.cus_name}
-        Car: {self.car_num.name}"""
+        Car made: {self.car.mark}
+        Car model: {self.car.model}
+        Car year: {self.car.year}
+        Car state: {self.car.state}"""
         return yourpass
 
 def checking():
