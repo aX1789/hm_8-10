@@ -16,6 +16,7 @@
 import pandas as pd
 
 df_cars = pd.read_csv("cars.csv", dtype={"id": str})
+df_musik = pd.read_csv("musik.csv", dtype={"id": str})
 
 class Auto:
     def __init__(self, id):
@@ -46,11 +47,18 @@ class System:
         pass
 
 class Confirmation:
-    def __init__(self, cus_name, car):
+    def __init__(self, cus_name, car, musik=None):
         self.cus_name = cus_name
         self.car = car
-
+        self.musik = musik
     def yourpass(self):
+        if self.musik:
+            musik_information = f"""Musik Type: {self.musik.musiktype},
+            Name of the playlisst: {self.musik.nameofplaylist},
+            Link: {self.musik.link}"""
+        else:
+            musik_information = """
+            You have chosen to drive without musik"""
         yourpass = f"""
         Thank you for your reservation
         Here is your booking data:
@@ -58,9 +66,16 @@ class Confirmation:
         Car made: {self.car.mark}
         Car model: {self.car.model}
         Car year: {self.car.year}
-        Car state: {self.car.state}"""
+        Car state: {self.car.state}
+        {musik_information}"""
         return yourpass
 
+class PlaylistServise:
+    def __init__(self, id):
+        self.id = id
+        self.musiktype = df_musik.loc[df_musik["id"] == self.id, "Musik type"].squeeze()
+        self.nameofplaylist = df_musik.loc[df_musik["id"] == self.id, "Name of playlist"].squeeze()
+        self.link = df_musik.loc[df_musik["id"] == self.id, "Link"].squeeze()
 def checking():
 
     print(df_cars)
@@ -71,11 +86,23 @@ def checking():
     if car.is_available():
         car.to_be_rented()
         cus_name = input("Enter your name: ")
-        your_pass = Confirmation(
+        music_suggestiong = input("Would you like some musik? Yes/No: ")
+        if music_suggestiong == "Yes":
+            print(df_musik)
+            choice = input("Choose ID of the playlist: ")
+            musik_choice = PlaylistServise(choice)
+            your_pass = Confirmation(
             cus_name=cus_name,
-            car = car
-        )
-        print(your_pass.yourpass())
+            car = car,
+            musik = musik_choice)
+            print(your_pass.yourpass())
+        else:    
+            print("Whatever")
+            your_pass = Confirmation(
+                cus_name=cus_name,
+                car=car,
+            )
+            print(your_pass.yourpass())
     else: 
         print("this car is not in your reach")
 
