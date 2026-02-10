@@ -26,15 +26,15 @@ class Auto:
         self.year = df_cars.loc[df_cars["id"] == self.id, "year"].squeeze()
         self.state = df_cars.loc[df_cars["id"] == self.id, "state"].squeeze()
     def is_available(self):
-        try:
+        if self.id not in df_cars["id"].values:
+            print(f"Помилка: Авто з ID {self.id} не знайдено в базі.")
+            return False
+        else:
             available = df_cars.loc[df_cars["id"] == self.id, "available"].squeeze()
             if available == "yes":
                 return True
             else: 
-                return False            
-        except ValueError:
-            print("This ID does not exist")
-            exit()
+                return False    
     
     def to_be_rented(self):
         df_cars.loc[df_cars["id"] == self.id, "available"] = "no"
